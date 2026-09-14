@@ -1,0 +1,39 @@
+# DEPENDENCIAS DE NODE
+node_modules/
+
+# VARIABLES DE ENTORNO
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Permitimos archivos de ejemplo
+!.env.example
+
+# BUILD / PRODUCCIÓN
+dist/
+build/
+
+# LOGS
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ARCHIVOS DEL SISTEMA OPERATIVO
+.DS_Store
+Thumbs.db
+
+# VISUAL STUDIO CODE
+.vscode/
+
+# INTELLIJ / WEBSTORM
+.idea/
+
+# ARCHIVOS TEMPORALES
+*.tmp
+*.temp
+.cache/
