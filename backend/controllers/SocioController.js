@@ -1,4 +1,5 @@
 const SocioModel = require("../models/SocioModel");
+const SocioService = require("../services/SocioService");
 
 class SocioController {
     static async obtenerPorId(req, res) {
@@ -51,61 +52,15 @@ class SocioController {
             });
         }
     }
-    static async crear(req, res) {
+static async crear(req, res) {
     try {
 
-        const socio = req.body;
-
-        // Validaciones básicas
-        if (
-            !socio.idSocio ||
-            !socio.primerNombre ||
-            !socio.primerApellido ||
-            !socio.idDocumento ||
-            !socio.noDocumento ||
-            !socio.idUsuario
-        ) {
-            return res.status(400).json({
-                exito: false,
-                mensaje: "Faltan campos obligatorios"
-            });
-        }
-
-        // Valores controlados por la aplicación
-        socio.idPais = 320;
-
-        const socioPorId = await SocioModel.obtenerPorId(
-            socio.idPais,
-            socio.idSocio
-        );
-
-        if (socioPorId) {
-            return res.status(409).json({
-              exito: false,
-               mensaje: "Ya existe un socio con ese código"
-            });
-        }
-
-        const socioPorDocumento = await SocioModel.obtenerPorDocumento(
-            socio.idPais,
-            socio.idDocumento,
-            socio.noDocumento
-        );
-
-        if (socioPorDocumento) {
-            return res.status(409).json({
-                exito: false,
-                mensaje: "Ya existe un socio registrado con ese documento"
-            });
-        }
-        const resultado = await SocioModel.crear(socio);
+        const resultado = await SocioService.crear(req.body);
 
         return res.status(201).json({
             exito: true,
             mensaje: "Socio registrado correctamente",
-            datos: {
-                idSocio: socio.idSocio
-            }
+            datos: resultado
         });
 
     } catch (error) {
@@ -118,12 +73,15 @@ class SocioController {
                 mensaje: "Ya existe un registro con esos datos únicos"
             });
         }
-        return res.status(500).json({
+
+        return res.status(error.statusCode || 500).json({
             exito: false,
-            mensaje: "Error interno del servidor"
+            mensaje: error.statusCode
+                ? error.message
+                : "Error interno del servidor"
         });
     }
-}
+    }
 
 static async actualizar(req, res) {
     try {
@@ -331,7 +289,7 @@ static async actualizar(req, res) {
         });
     }
     }
-    
+
 }
 
 module.exports = SocioController;
