@@ -2,42 +2,14 @@ const SocioModel = require("../models/SocioModel");
 const SocioService = require("../services/SocioService");
 
 class SocioController {
-    static async obtenerPorId(req, res) {
-    try {
 
-        const { idSocio } = req.params;
-
-        const socio = await SocioModel.obtenerPorId(320, idSocio);
-
-        if (!socio) {
-            return res.status(404).json({
-                exito: false,
-                mensaje: "Socio no encontrado"
-            });
-        }
-
-        return res.status(200).json({
-            exito: true,
-            datos: socio
-        });
-
-    } catch (error) {
-
-        console.error("Error al obtener socio:", error);
-
-        return res.status(500).json({
-            exito: false,
-            mensaje: "Error interno del servidor"
-        });
-    }
-    }
-
+    // Obtener todos los socios activos
     static async obtenerTodos(req, res) {
         try {
 
             const socios = await SocioModel.obtenerTodos();
 
-            res.status(200).json({
+            return res.status(200).json({
                 exito: true,
                 datos: socios
             });
@@ -46,250 +18,203 @@ class SocioController {
 
             console.error("Error al obtener socios:", error);
 
-            res.status(500).json({
+            return res.status(500).json({
                 exito: false,
                 mensaje: "Error interno del servidor"
             });
         }
     }
-static async crear(req, res) {
-    try {
 
-        const resultado = await SocioService.crear(req.body);
 
-        return res.status(201).json({
-            exito: true,
-            mensaje: "Socio registrado correctamente",
-            datos: resultado
-        });
+    // Obtener socio por ID
+    static async obtenerPorId(req, res) {
+        try {
 
-    } catch (error) {
+            const { idSocio } = req.params;
 
-        console.error("Error al registrar socio:", error);
+            const socio = await SocioModel.obtenerPorId(
+                320,
+                idSocio
+            );
 
-        if (error.code === "ER_DUP_ENTRY") {
-            return res.status(409).json({
-                exito: false,
-                mensaje: "Ya existe un registro con esos datos únicos"
-            });
-        }
-
-        return res.status(error.statusCode || 500).json({
-            exito: false,
-            mensaje: error.statusCode
-                ? error.message
-                : "Error interno del servidor"
-        });
-    }
-    }
-
-static async actualizar(req, res) {
-    try {
-
-        const { idSocio } = req.params;
-        const socio = req.body;
-
-        // ========================================
-        // Validaciones básicas
-        // ========================================
-
-        if (
-            !socio.primerNombre ||
-            !socio.primerApellido ||
-            !socio.idDocumento ||
-            !socio.noDocumento
-        ) {
-            return res.status(400).json({
-                exito: false,
-                mensaje: "Faltan campos obligatorios"
-            });
-        }
-
-        // ========================================
-        // Verificar que el socio exista
-        // ========================================
-
-        const socioExistente = await SocioModel.obtenerPorId(
-            320,
-            idSocio
-        );
-
-        if (!socioExistente) {
-            return res.status(404).json({
-                exito: false,
-                mensaje: "Socio no encontrado"
-            });
-        }
-        const socioPorDocumento = await SocioModel.obtenerPorDocumento(320, socio.idDocumento, socio.noDocumento);
-
-    if (
-        socioPorDocumento &&
-        socioPorDocumento.idSocio !== idSocio
-    ) {
-        return res.status(409).json({
-            exito: false,
-            mensaje: "El documento ya pertenece a otro socio"
-        });
-    }
-        // ========================================
-        // Actualizar
-        // ========================================
-
-        await SocioModel.actualizar(
-            320,
-            idSocio,
-            socio
-        );
-
-        return res.status(200).json({
-            exito: true,
-            mensaje: "Socio actualizado correctamente",
-            datos: {
-                idSocio: idSocio
+            if (!socio) {
+                return res.status(404).json({
+                    exito: false,
+                    mensaje: "Socio no encontrado"
+                });
             }
-        });
 
-    } catch (error) {
+            return res.status(200).json({
+                exito: true,
+                datos: socio
+            });
 
-        console.error("Error al actualizar socio:", error);
+        } catch (error) {
 
-        if (error.code === "ER_DUP_ENTRY") {
-            return res.status(409).json({
+            console.error("Error al obtener socio:", error);
+
+            return res.status(500).json({
                 exito: false,
-                mensaje: "Ya existe otro socio con ese documento"
+                mensaje: "Error interno del servidor"
             });
         }
+    }
 
-        return res.status(500).json({
-            exito: false,
-            mensaje: "Error interno del servidor"
-        });
+
+    // Obtener socios inactivos
+    static async obtenerInactivos(req, res) {
+        try {
+
+            const socios = await SocioModel.obtenerInactivos();
+
+            return res.status(200).json({
+                exito: true,
+                datos: socios
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error al obtener socios inactivos:",
+                error
+            );
+
+            return res.status(500).json({
+                exito: false,
+                mensaje: "Error interno del servidor"
+            });
+        }
     }
+
+
+    // Crear socio
+    static async crear(req, res) {
+        try {
+
+            const resultado = await SocioService.crear(
+                req.body
+            );
+
+            return res.status(201).json({
+                exito: true,
+                mensaje: "Socio registrado correctamente",
+                datos: resultado
+            });
+
+        } catch (error) {
+
+            console.error("Error al registrar socio:", error);
+
+            if (error.code === "ER_DUP_ENTRY") {
+                return res.status(409).json({
+                    exito: false,
+                    mensaje:
+                        "Ya existe un registro con esos datos únicos"
+                });
+            }
+
+            return res.status(error.statusCode || 500).json({
+                exito: false,
+                mensaje: error.statusCode
+                    ? error.message
+                    : "Error interno del servidor"
+            });
+        }
     }
+
+
+    // Actualizar socio
+    static async actualizar(req, res) {
+        try {
+
+            const { idSocio } = req.params;
+
+            const resultado = await SocioService.actualizar(
+                idSocio,
+                req.body
+            );
+
+            return res.status(200).json({
+                exito: true,
+                mensaje: "Socio actualizado correctamente",
+                datos: resultado
+            });
+
+        } catch (error) {
+
+            console.error("Error al actualizar socio:", error);
+
+            if (error.code === "ER_DUP_ENTRY") {
+                return res.status(409).json({
+                    exito: false,
+                    mensaje:
+                        "Ya existe otro socio con ese documento"
+                });
+            }
+
+            return res.status(error.statusCode || 500).json({
+                exito: false,
+                mensaje: error.statusCode
+                    ? error.message
+                    : "Error interno del servidor"
+            });
+        }
+    }
+
+
+    // Eliminación lógica
 
     static async eliminar(req, res) {
-    try {
+        try {
 
-        const { idSocio } = req.params;
+            const { idSocio } = req.params;
 
-        // ========================================
-        // Verificar que el socio exista
-        // ========================================
+            await SocioService.eliminar(idSocio);
 
-        const socio = await SocioModel.obtenerPorId(
-            320,
-            idSocio
-        );
+            return res.status(200).json({
+                exito: true,
+                mensaje: "Socio desactivado correctamente"
+            });
 
-        if (!socio) {
-            return res.status(404).json({
+        } catch (error) {
+
+            console.error("Error al desactivar socio:", error);
+
+            return res.status(error.statusCode || 500).json({
                 exito: false,
-                mensaje: "Socio no encontrado"
+                mensaje: error.statusCode
+                    ? error.message
+                    : "Error interno del servidor"
             });
         }
-
-        // ========================================
-        // Verificar si ya está inactivo
-        // ========================================
-
-        if (!socio.activo) {
-            return res.status(400).json({
-                exito: false,
-                mensaje: "El socio ya se encuentra inactivo"
-            });
-        }
-
-        // ========================================
-        // Eliminación lógica
-        // ========================================
-
-        await SocioModel.desactivar(
-            320,
-            idSocio
-        );
-
-        return res.status(200).json({
-            exito: true,
-            mensaje: "Socio desactivado correctamente"
-        });
-
-    } catch (error) {
-
-        console.error("Error al desactivar socio:", error);
-
-        return res.status(500).json({
-            exito: false,
-            mensaje: "Error interno del servidor"
-        });
-    }
     }
 
+
+    // Reactivar socio
     static async reactivar(req, res) {
-    try {
+        try {
 
-        const { idSocio } = req.params;
+            const { idSocio } = req.params;
 
-        const socio = await SocioModel.obtenerPorId(
-            320,
-            idSocio
-        );
+            await SocioService.reactivar(idSocio);
 
-        if (!socio) {
-            return res.status(404).json({
+            return res.status(200).json({
+                exito: true,
+                mensaje: "Socio reactivado correctamente"
+            });
+
+        } catch (error) {
+
+            console.error("Error al reactivar socio:", error);
+
+            return res.status(error.statusCode || 500).json({
                 exito: false,
-                mensaje: "Socio no encontrado"
+                mensaje: error.statusCode
+                    ? error.message
+                    : "Error interno del servidor"
             });
         }
-
-        if (socio.activo) {
-            return res.status(400).json({
-                exito: false,
-                mensaje: "El socio ya se encuentra activo"
-            });
-        }
-
-        await SocioModel.reactivar(
-            320,
-            idSocio
-        );
-
-        return res.status(200).json({
-            exito: true,
-            mensaje: "Socio reactivado correctamente"
-        });
-
-    } catch (error) {
-
-        console.error("Error al reactivar socio:", error);
-
-        return res.status(500).json({
-            exito: false,
-            mensaje: "Error interno del servidor"
-        });
     }
-    }
-
-    static async obtenerInactivos(req, res) {
-    try {
-
-        const socios = await SocioModel.obtenerInactivos();
-
-        return res.status(200).json({
-            exito: true,
-            datos: socios
-        });
-
-    } catch (error) {
-
-        console.error("Error al obtener socios inactivos:", error);
-
-        return res.status(500).json({
-            exito: false,
-            mensaje: "Error interno del servidor"
-        });
-    }
-    }
-
 }
 
 module.exports = SocioController;

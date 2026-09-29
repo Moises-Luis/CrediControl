@@ -1,0 +1,569 @@
+/* ========================================
+   PÁGINA
+======================================== */
+
+.socios-page {
+    width: 100%;
+}
+
+
+/* ========================================
+   CABECERA
+======================================== */
+
+.socios-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+}
+
+.socios-header h1 {
+    margin: 0;
+
+    font-size: 23px;
+    font-weight: 700;
+
+    color: #0f172a;
+}
+
+.socios-header p {
+    margin: 5px 0 0;
+
+    font-size: 13px;
+
+    color: #64748b;
+}
+
+.btn-register-member {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 11px 17px;
+
+    background-color: #1769c2;
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    box-shadow:
+        0 2px 5px rgba(23, 105, 194, 0.18);
+
+    transition: 0.2s;
+}
+
+.btn-register-member:hover {
+    background-color: #125aa8;
+}
+
+
+/* ========================================
+   TOOLBAR
+======================================== */
+
+.socios-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 10px;
+}
+
+.socios-search {
+    width: min(550px, 100%);
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 14px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    background-color: #ffffff;
+}
+
+.socios-search i {
+    color: #64748b;
+}
+
+.socios-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #334155;
+
+    font-size: 14px;
+}
+
+.socios-search input::placeholder {
+    color: #94a3b8;
+}
+
+
+/* ========================================
+   FILTROS ESTADO
+======================================== */
+
+.socios-summary {
+    display: flex;
+    align-items: center;
+
+    padding: 4px;
+
+    border: 1px solid #dbe2ea;
+    border-radius: 9px;
+
+    background-color: #ffffff;
+}
+
+.summary-item {
+    min-height: 35px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    border: none;
+    border-radius: 6px;
+
+    padding: 6px 12px;
+
+    background: transparent;
+
+    color: #475569;
+
+    font-size: 12px;
+}
+
+.summary-item.active {
+    background-color: #0b2a4a;
+
+    color: #ffffff;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+}
+
+.status-active {
+    background-color: #10b981;
+}
+
+.status-inactive {
+    background-color: #ef4444;
+}
+
+
+/* ========================================
+   CONTADOR
+======================================== */
+
+.socios-count {
+    margin-bottom: 15px;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* ========================================
+   TARJETA
+======================================== */
+
+.socios-table-card {
+    overflow: hidden;
+
+    border: 1px solid #dbe2ea;
+    border-radius: 10px;
+
+    background-color: #ffffff;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+
+/* ========================================
+   TABLA
+======================================== */
+
+.socios-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.socios-table thead {
+    background-color: #f8fafc;
+}
+
+.socios-table th {
+    padding: 13px 16px;
+
+    border-bottom: 1px solid #dbe2ea;
+
+    color: #475569;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.socios-table td {
+    padding: 13px 16px;
+
+    border-bottom: 1px solid #e8edf3;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    vertical-align: middle;
+}
+
+.socios-table tbody tr {
+    transition: 0.15s;
+}
+
+.socios-table tbody tr:hover {
+    background-color: #f8fbff;
+}
+
+.socios-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ========================================
+   INFORMACIÓN SOCIO
+======================================== */
+
+.member-info {
+    min-width: 245px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.member-status {
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: #10b981;
+}
+
+.member-status.inactive {
+    background-color: #ef4444;
+}
+
+.member-avatar {
+    width: 37px;
+    height: 37px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: #e7eff8;
+
+    color: #0b2a4a;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.member-name {
+    color: #0f172a;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.member-code {
+    margin-top: 2px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+.member-address {
+    display: inline-block;
+
+    max-width: 220px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.table-mono {
+    font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+    color: #0f2f50;
+}
+
+
+/* ========================================
+   BADGES
+======================================== */
+
+.member-badge {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.member-badge span {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+}
+
+.member-badge.active {
+    background-color: #e7f8f1;
+
+    color: #087f5b;
+}
+
+.member-badge.active span {
+    background-color: #10b981;
+}
+
+.member-badge.inactive {
+    background-color: #feecec;
+
+    color: #b42318;
+}
+
+.member-badge.inactive span {
+    background-color: #ef4444;
+}
+
+
+/* ========================================
+   ACCIONES
+======================================== */
+
+.table-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.action-button {
+    width: 31px;
+    height: 31px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #dbe2ea;
+    border-radius: 6px;
+
+    background-color: #ffffff;
+
+    font-size: 13px;
+
+    transition: 0.15s;
+}
+
+.action-button.view {
+    color: #475569;
+}
+
+.action-button.edit {
+    color: #1769c2;
+}
+
+.action-button.delete {
+    color: #dc3545;
+}
+
+.action-button.reactivate {
+    color: #087f5b;
+}
+
+.action-button:hover {
+    background-color: #f1f5f9;
+}
+
+.action-button.delete:hover {
+    border-color: #fecaca;
+
+    background-color: #fff1f2;
+}
+
+.action-button.reactivate:hover {
+    border-color: #a7f3d0;
+
+    background-color: #ecfdf5;
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+.table-footer {
+    min-height: 47px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 18px;
+
+    border-top: 1px solid #e2e8f0;
+
+    background-color: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+/* ========================================
+   CARGANDO
+======================================== */
+
+.socios-loading {
+    min-height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* ========================================
+   VACÍO
+======================================== */
+
+.empty-table {
+    height: 240px;
+
+    text-align: center !important;
+}
+
+.empty-table i {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #94a3b8;
+
+    font-size: 30px;
+}
+
+.empty-table strong {
+    display: block;
+
+    color: #334155;
+
+    font-size: 14px;
+}
+
+.empty-table span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1000px) {
+
+    .socios-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .socios-search {
+        width: 100%;
+    }
+
+    .socios-summary {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .socios-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .btn-register-member {
+        justify-content: center;
+    }
+}
