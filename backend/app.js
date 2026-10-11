@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-
 const socioRoutes = require("./routes/socioRoutes");
+const creditoRoutes = require("./routes/creditoRoutes");
 
 const app = express();
 
@@ -22,6 +22,6 @@ app.get("/", (req, res) => {
 
 // Rutas de la API
 app.use("/api/socios", socioRoutes);
-
+app.use("/api/creditos", creditoRoutes);
 
 module.exports = app;

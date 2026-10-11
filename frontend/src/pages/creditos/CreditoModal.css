@@ -1,0 +1,165 @@
+.credito-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(2px);
+}
+
+.credito-modal {
+    width: min(900px, 100%);
+    max-height: 94vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+}
+
+.credito-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 26px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.credito-modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.credito-modal-header p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.credito-modal-close {
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-size: 19px;
+}
+
+.credito-modal form {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.credito-modal-body {
+    padding: 24px 26px;
+    overflow-y: auto;
+}
+
+.credito-section-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 5px 0 18px;
+    color: #0b2a4a;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.credito-section-title:not(:first-child) {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.credito-section-title i {
+    color: #1769c2;
+    font-size: 17px;
+}
+
+.credito-modal .form-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.credito-modal .form-control,
+.credito-modal .form-select {
+    min-height: 40px;
+    font-size: 13px;
+}
+
+.credito-info {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 13px;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    color: #1e40af;
+    font-size: 12px;
+}
+
+.credito-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 26px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+
+@media (max-width: 700px) {
+    .credito-modal-overlay {
+        padding: 8px;
+    }
+
+    .credito-modal-body {
+        padding: 18px;
+    }
+
+    .credito-modal-header,
+    .credito-modal-footer {
+        padding: 16px 18px;
+    }
+}
+
+.credito-modal {
+    width: min(1100px, 96vw);
+    max-height: 94vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.credito-modal form {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+}
+
+.credito-modal-body {
+    overflow-y: auto;
+    min-height: 0;
+    flex: 1;
+}
+
+.credito-modal-footer {
+    flex-shrink: 0;
+}
+
+.credito-modal .table {
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.credito-modal .table th,
+.credito-modal .table td {
+    padding: 10px 12px;
+}

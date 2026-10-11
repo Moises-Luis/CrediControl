@@ -65,10 +65,7 @@ function Sidebar() {
                     <span>Socios</span>
                 </a>
 
-                <a
-                    href="#"
-                    className="sidebar-link"
-                >
+                <a href="#/creditos" className="sidebar-link active">
                     <i className="bi bi-cash-stack"></i>
                     <span>Créditos</span>
                 </a>
