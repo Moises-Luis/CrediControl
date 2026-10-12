@@ -5,10 +5,6 @@ import "./Sidebar.css";
 
 function Sidebar() {
 
-    // ==========================================
-    // OBTENER RUTA ACTUAL
-    // ==========================================
-
     const obtenerRutaActual = () => {
         const ruta = window.location.hash.replace("#", "");
         return ruta || "/socios";
@@ -16,12 +12,7 @@ function Sidebar() {
 
     const [rutaActual, setRutaActual] = useState(obtenerRutaActual);
 
-    // ==========================================
-    // DETECTAR CAMBIOS DE RUTA
-    // ==========================================
-
     useEffect(() => {
-
         const actualizarRuta = () => {
             setRutaActual(obtenerRutaActual());
         };
@@ -34,26 +25,20 @@ function Sidebar() {
                 actualizarRuta
             );
         };
-
     }, []);
 
-    // ==========================================
-    // CLASE ACTIVA
-    // ==========================================
-
     const obtenerClase = (ruta) => {
-        return `sidebar-link ${rutaActual === ruta ? "active" : ""}`;
+        return `sidebar-link ${
+            rutaActual === ruta ? "active" : ""
+        }`;
     };
 
     return (
         <aside className="sidebar">
 
-            {/* ====================================
-                LOGO
-            ==================================== */}
+            {/* LOGO */}
 
             <div className="sidebar-brand">
-
                 <div className="brand-logo">
                     <i className="bi bi-cash-coin"></i>
                 </div>
@@ -67,35 +52,25 @@ function Sidebar() {
                         Gestión de créditos
                     </div>
                 </div>
-
             </div>
 
-            {/* ====================================
-                ACCIÓN PRINCIPAL
-            ==================================== */}
+            {/* ACCIÓN PRINCIPAL */}
 
             <div className="sidebar-action">
-
                 <button
                     type="button"
                     className="btn-new-credit"
                     onClick={() => {
                         window.location.hash = "/creditos";
                     }}
-                    title="Ir al módulo de créditos"
                 >
                     <i className="bi bi-plus-circle"></i>
 
-                    <span>
-                        Nuevo Crédito
-                    </span>
+                    <span>Nuevo Crédito</span>
                 </button>
-
             </div>
 
-            {/* ====================================
-                MENÚ PRINCIPAL
-            ==================================== */}
+            {/* NAVEGACIÓN */}
 
             <nav className="sidebar-navigation">
 
@@ -103,7 +78,7 @@ function Sidebar() {
                     PRINCIPAL
                 </div>
 
-                {/* DASHBOARD - PENDIENTE */}
+                {/* DASHBOARD PENDIENTE */}
 
                 <div
                     className="sidebar-link opacity-50"
@@ -114,61 +89,37 @@ function Sidebar() {
                     <span>Dashboard</span>
                 </div>
 
-                {/* SOCIOS */}
-
                 <a
                     href="#/socios"
                     className={obtenerClase("/socios")}
-                    aria-current={
-                        rutaActual === "/socios"
-                            ? "page"
-                            : undefined
-                    }
                 >
                     <i className="bi bi-people"></i>
                     <span>Socios</span>
                 </a>
 
-                {/* CRÉDITOS */}
-
                 <a
                     href="#/creditos"
                     className={obtenerClase("/creditos")}
-                    aria-current={
-                        rutaActual === "/creditos"
-                            ? "page"
-                            : undefined
-                    }
                 >
                     <i className="bi bi-cash-stack"></i>
                     <span>Créditos</span>
                 </a>
 
-                {/* PAGOS */}
-
                 <a
                     href="#/pagos"
                     className={obtenerClase("/pagos")}
-                    aria-current={
-                        rutaActual === "/pagos"
-                            ? "page"
-                            : undefined
-                    }
                 >
                     <i className="bi bi-wallet2"></i>
                     <span>Pagos</span>
                 </a>
 
-                {/* CUOTAS - PENDIENTE */}
-
-                <div
-                    className="sidebar-link opacity-50"
-                    title="Módulo pendiente"
-                    aria-disabled="true"
+                <a
+                    href="#/cuotas"
+                    className={obtenerClase("/cuotas")}
                 >
                     <i className="bi bi-calendar-check"></i>
                     <span>Cuotas</span>
-                </div>
+                </a>
 
                 <div className="sidebar-separator"></div>
 
@@ -176,16 +127,9 @@ function Sidebar() {
                     CONSULTAS
                 </div>
 
-                {/* REPORTES - HABILITADO */}
-
                 <a
                     href="#/reportes"
                     className={obtenerClase("/reportes")}
-                    aria-current={
-                        rutaActual === "/reportes"
-                            ? "page"
-                            : undefined
-                    }
                 >
                     <i className="bi bi-bar-chart-line"></i>
                     <span>Reportes</span>
@@ -197,18 +141,17 @@ function Sidebar() {
                     SISTEMA
                 </div>
 
-                {/* USUARIOS - PENDIENTE */}
+                {/* USUARIOS HABILITADO */}
 
-                <div
-                    className="sidebar-link opacity-50"
-                    title="Módulo pendiente"
-                    aria-disabled="true"
+                <a
+                    href="#/usuarios"
+                    className={obtenerClase("/usuarios")}
                 >
                     <i className="bi bi-person-gear"></i>
                     <span>Usuarios</span>
-                </div>
+                </a>
 
-                {/* CONFIGURACIÓN - PENDIENTE */}
+                {/* CONFIGURACIÓN PENDIENTE */}
 
                 <div
                     className="sidebar-link opacity-50"
@@ -221,18 +164,14 @@ function Sidebar() {
 
             </nav>
 
-            {/* ====================================
-                USUARIO
-            ==================================== */}
+            {/* PERFIL */}
 
             <div className="sidebar-user">
-
                 <div className="user-avatar">
                     AD
                 </div>
 
                 <div className="user-information">
-
                     <div className="user-name">
                         Administrador
                     </div>
@@ -240,7 +179,6 @@ function Sidebar() {
                     <div className="user-role">
                         Administrador
                     </div>
-
                 </div>
 
                 <button
@@ -250,7 +188,6 @@ function Sidebar() {
                 >
                     <i className="bi bi-three-dots-vertical"></i>
                 </button>
-
             </div>
 
         </aside>
@@ -258,3 +195,4 @@ function Sidebar() {
 }
 
 export default Sidebar;
+

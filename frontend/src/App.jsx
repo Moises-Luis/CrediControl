@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 import Layout from "./components/layout/Layout";
@@ -6,15 +5,13 @@ import Layout from "./components/layout/Layout";
 import Socios from "./pages/socios/Socios";
 import Creditos from "./pages/creditos/Creditos";
 import Pagos from "./pages/pagos/Pagos";
+import Cuotas from "./pages/cuotas/Cuotas";
 import Reportes from "./pages/reportes/Reportes";
+import Usuarios from "./pages/usuarios/Usuarios";
 
 import "./App.css";
 
 function App() {
-
-    // ==========================================
-    // OBTENER RUTA ACTUAL
-    // ==========================================
 
     const obtenerRuta = () => {
         const ruta = window.location.hash.replace("#", "");
@@ -22,10 +19,6 @@ function App() {
     };
 
     const [rutaActual, setRutaActual] = useState(obtenerRuta);
-
-    // ==========================================
-    // DETECTAR CAMBIOS DE RUTA
-    // ==========================================
 
     useEffect(() => {
         const cambiarRuta = () => {
@@ -39,10 +32,6 @@ function App() {
         };
     }, []);
 
-    // ==========================================
-    // RENDERIZAR PÁGINA
-    // ==========================================
-
     const renderizarPagina = () => {
         switch (rutaActual) {
 
@@ -55,8 +44,14 @@ function App() {
             case "/pagos":
                 return <Pagos />;
 
+            case "/cuotas":
+                return <Cuotas />;
+
             case "/reportes":
                 return <Reportes />;
+
+            case "/usuarios":
+                return <Usuarios />;
 
             default:
                 return <Socios />;
@@ -71,3 +66,4 @@ function App() {
 }
 
 export default App;
+
