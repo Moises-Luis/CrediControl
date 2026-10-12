@@ -1,11 +1,57 @@
+
+import { useEffect, useState } from "react";
+
 import "./Sidebar.css";
 
 function Sidebar() {
 
+    // ==========================================
+    // OBTENER RUTA ACTUAL
+    // ==========================================
+
+    const obtenerRutaActual = () => {
+        const ruta = window.location.hash.replace("#", "");
+        return ruta || "/socios";
+    };
+
+    const [rutaActual, setRutaActual] = useState(obtenerRutaActual);
+
+    // ==========================================
+    // DETECTAR CAMBIOS DE RUTA
+    // ==========================================
+
+    useEffect(() => {
+
+        const actualizarRuta = () => {
+            setRutaActual(obtenerRutaActual());
+        };
+
+        window.addEventListener("hashchange", actualizarRuta);
+
+        return () => {
+            window.removeEventListener(
+                "hashchange",
+                actualizarRuta
+            );
+        };
+
+    }, []);
+
+    // ==========================================
+    // CLASE ACTIVA
+    // ==========================================
+
+    const obtenerClase = (ruta) => {
+        return `sidebar-link ${rutaActual === ruta ? "active" : ""}`;
+    };
+
     return (
         <aside className="sidebar">
 
-            {/* LOGO */}
+            {/* ====================================
+                LOGO
+            ==================================== */}
+
             <div className="sidebar-brand">
 
                 <div className="brand-logo">
@@ -24,13 +70,19 @@ function Sidebar() {
 
             </div>
 
+            {/* ====================================
+                ACCIÓN PRINCIPAL
+            ==================================== */}
 
-            {/* ACCIÓN PRINCIPAL */}
             <div className="sidebar-action">
 
                 <button
                     type="button"
                     className="btn-new-credit"
+                    onClick={() => {
+                        window.location.hash = "/creditos";
+                    }}
+                    title="Ir al módulo de créditos"
                 >
                     <i className="bi bi-plus-circle"></i>
 
@@ -41,95 +93,138 @@ function Sidebar() {
 
             </div>
 
+            {/* ====================================
+                MENÚ PRINCIPAL
+            ==================================== */}
 
-            {/* MENÚ PRINCIPAL */}
             <nav className="sidebar-navigation">
 
                 <div className="sidebar-section-title">
                     PRINCIPAL
                 </div>
 
-                <a
-                    href="#"
-                    className="sidebar-link"
+                {/* DASHBOARD - PENDIENTE */}
+
+                <div
+                    className="sidebar-link opacity-50"
+                    title="Módulo pendiente"
+                    aria-disabled="true"
                 >
                     <i className="bi bi-grid"></i>
                     <span>Dashboard</span>
-                </a>
+                </div>
+
+                {/* SOCIOS */}
 
                 <a
-                    href="#"
-                    className="sidebar-link active"
+                    href="#/socios"
+                    className={obtenerClase("/socios")}
+                    aria-current={
+                        rutaActual === "/socios"
+                            ? "page"
+                            : undefined
+                    }
                 >
                     <i className="bi bi-people"></i>
                     <span>Socios</span>
                 </a>
 
-                <a href="#/creditos" className="sidebar-link active">
+                {/* CRÉDITOS */}
+
+                <a
+                    href="#/creditos"
+                    className={obtenerClase("/creditos")}
+                    aria-current={
+                        rutaActual === "/creditos"
+                            ? "page"
+                            : undefined
+                    }
+                >
                     <i className="bi bi-cash-stack"></i>
                     <span>Créditos</span>
                 </a>
 
+                {/* PAGOS */}
+
                 <a
-                    href="#"
-                    className="sidebar-link"
+                    href="#/pagos"
+                    className={obtenerClase("/pagos")}
+                    aria-current={
+                        rutaActual === "/pagos"
+                            ? "page"
+                            : undefined
+                    }
                 >
                     <i className="bi bi-wallet2"></i>
                     <span>Pagos</span>
                 </a>
 
-                <a
-                    href="#"
-                    className="sidebar-link"
+                {/* CUOTAS - PENDIENTE */}
+
+                <div
+                    className="sidebar-link opacity-50"
+                    title="Módulo pendiente"
+                    aria-disabled="true"
                 >
                     <i className="bi bi-calendar-check"></i>
                     <span>Cuotas</span>
-                </a>
-
+                </div>
 
                 <div className="sidebar-separator"></div>
-
 
                 <div className="sidebar-section-title">
                     CONSULTAS
                 </div>
 
+                {/* REPORTES - HABILITADO */}
+
                 <a
-                    href="#"
-                    className="sidebar-link"
+                    href="#/reportes"
+                    className={obtenerClase("/reportes")}
+                    aria-current={
+                        rutaActual === "/reportes"
+                            ? "page"
+                            : undefined
+                    }
                 >
-                    <i className="bi bi-bar-chart"></i>
+                    <i className="bi bi-bar-chart-line"></i>
                     <span>Reportes</span>
                 </a>
 
-
                 <div className="sidebar-separator"></div>
-
 
                 <div className="sidebar-section-title">
                     SISTEMA
                 </div>
 
-                <a
-                    href="#"
-                    className="sidebar-link"
+                {/* USUARIOS - PENDIENTE */}
+
+                <div
+                    className="sidebar-link opacity-50"
+                    title="Módulo pendiente"
+                    aria-disabled="true"
                 >
                     <i className="bi bi-person-gear"></i>
                     <span>Usuarios</span>
-                </a>
+                </div>
 
-                <a
-                    href="#"
-                    className="sidebar-link"
+                {/* CONFIGURACIÓN - PENDIENTE */}
+
+                <div
+                    className="sidebar-link opacity-50"
+                    title="Módulo pendiente"
+                    aria-disabled="true"
                 >
                     <i className="bi bi-gear"></i>
                     <span>Configuración</span>
-                </a>
+                </div>
 
             </nav>
 
+            {/* ====================================
+                USUARIO
+            ==================================== */}
 
-            {/* USUARIO */}
             <div className="sidebar-user">
 
                 <div className="user-avatar">
@@ -151,6 +246,7 @@ function Sidebar() {
                 <button
                     type="button"
                     className="user-menu-button"
+                    title="Opciones de usuario"
                 >
                     <i className="bi bi-three-dots-vertical"></i>
                 </button>

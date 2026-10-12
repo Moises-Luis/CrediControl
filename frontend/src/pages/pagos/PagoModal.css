@@ -1,0 +1,188 @@
+
+/* ==========================================
+   FONDO DEL MODAL
+========================================== */
+
+.pago-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1060;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 24px;
+
+    background: rgba(15, 23, 42, 0.65);
+}
+
+/* ==========================================
+   CONTENEDOR DEL MODAL
+========================================== */
+
+.pago-modal-dialog {
+    width: 100%;
+    max-width: 850px;
+    max-height: calc(100vh - 48px);
+
+    margin: 0;
+    opacity: 1;
+    color: #212529;
+}
+
+.pago-modal-dialog .modal-content {
+    max-height: calc(100vh - 48px);
+
+    overflow: hidden;
+    border-radius: 14px;
+
+    background: #ffffff;
+    color: #212529;
+    opacity: 1;
+}
+
+/* ==========================================
+   ESPACIADO INTERNO
+========================================== */
+
+.pago-modal-dialog .modal-header {
+    flex-shrink: 0;
+
+    padding: 22px 28px;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.pago-modal-dialog .modal-body {
+    overflow-y: auto;
+
+    padding: 28px;
+    background: #ffffff;
+}
+
+.pago-modal-dialog .modal-footer {
+    flex-shrink: 0;
+
+    padding: 18px 28px;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* ==========================================
+   TEXTOS Y TÍTULOS
+========================================== */
+
+.pago-modal-dialog .modal-title,
+.pago-modal-dialog h5,
+.pago-modal-dialog h6 {
+    color: #212529;
+    opacity: 1;
+}
+
+.pago-modal-dialog .text-muted {
+    color: #475569 !important;
+    opacity: 1;
+}
+
+.pago-modal-dialog .form-label {
+    color: #212529;
+    font-weight: 600;
+}
+
+.pago-modal-dialog .form-control {
+    color: #212529;
+    background-color: #ffffff;
+}
+
+.pago-modal-dialog .form-control[readonly] {
+    background-color: #f1f5f9;
+}
+
+/* ==========================================
+   TARJETAS DE TIPO DE PAGO
+========================================== */
+
+.pago-tipo-card {
+    width: 100%;
+    min-height: 100px;
+
+    padding: 16px;
+    text-align: left;
+
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #212529;
+    opacity: 1;
+
+    transition:
+        border-color 0.15s,
+        background 0.15s;
+}
+
+.pago-tipo-card:hover {
+    border-color: #0d6efd;
+    background: #f8fbff;
+}
+
+.pago-tipo-activo {
+    border: 2px solid #0d6efd;
+    background: #eef5ff;
+}
+
+.pago-tipo-card:focus-visible {
+    outline: 3px solid rgba(13, 110, 253, 0.3);
+    outline-offset: 2px;
+}
+
+/* ==========================================
+   ESPACIADO DE TARJETAS INTERNAS
+========================================== */
+
+.pago-modal-dialog .card {
+    border-radius: 10px;
+}
+
+.pago-modal-dialog .card-body {
+    padding: 20px;
+}
+
+.pago-modal-dialog .card-header {
+    padding: 14px 20px;
+}
+
+/* ==========================================
+   PANTALLAS PEQUEÑAS
+========================================== */
+
+@media (max-width: 576px) {
+    .pago-modal-overlay {
+        padding: 10px;
+    }
+
+    .pago-modal-dialog {
+        max-height: calc(100vh - 20px);
+    }
+
+    .pago-modal-dialog .modal-content {
+        max-height: calc(100vh - 20px);
+    }
+
+    .pago-modal-dialog .modal-header {
+        padding: 16px;
+    }
+
+    .pago-modal-dialog .modal-body {
+        padding: 18px;
+    }
+
+    .pago-modal-dialog .modal-footer {
+        padding: 16px;
+    }
+
+    .pago-modal-dialog .card-body {
+        padding: 16px;
+    }
+}

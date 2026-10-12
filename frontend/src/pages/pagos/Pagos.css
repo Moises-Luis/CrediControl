@@ -1,0 +1,45 @@
+
+.pagos-page {
+    min-height: 100%;
+}
+
+.pagos-page .card {
+    border-radius: 12px;
+}
+
+.pagos-page .table th {
+    white-space: nowrap;
+    font-size: 0.85rem;
+}
+
+.pagos-page .table td {
+    font-size: 0.9rem;
+}
+
+.pagos-page .btn-sm {
+    min-width: 34px;
+}
+
+.pagos-modal {
+    background: transparent;
+}
+
+.pagos-modal .modal-content {
+    border: none;
+    border-radius: 12px;
+}
+
+.pagos-modal .modal-body {
+    min-height: 160px;
+}
+
+@media (max-width: 768px) {
+    .pagos-page {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .pagos-page .card-body {
+        padding: 14px;
+    }
+}
