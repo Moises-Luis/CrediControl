@@ -1,48 +1,82 @@
 
 const express = require("express");
-const UsuarioController = require("../controllers/UsuarioController");
+
+const UsuarioController =
+    require("../controllers/UsuarioController");
+
+const verificarPermiso =
+    require("../middlewares/permisoMiddleware");
 
 const router = express.Router();
 
-// Catálogo de perfiles existentes
+// ==========================================
+// CATÁLOGO DE PERFILES
+// Solo administradores de usuarios
+// ==========================================
+
 router.get(
     "/perfiles",
+    verificarPermiso("usuarios.administrar"),
     UsuarioController.obtenerPerfiles
 );
 
-// Listado de usuarios
+// ==========================================
+// LISTADO DE USUARIOS
+// ==========================================
+
 router.get(
     "/",
+    verificarPermiso("usuarios.ver"),
     UsuarioController.listar
 );
 
-// Obtener usuario por ID
+// ==========================================
+// OBTENER USUARIO POR ID
+// ==========================================
+
 router.get(
     "/:idUsuario",
+    verificarPermiso("usuarios.ver"),
     UsuarioController.obtenerPorId
 );
 
-// Registrar usuario
+// ==========================================
+// REGISTRAR USUARIO
+// ==========================================
+
 router.post(
     "/",
+    verificarPermiso("usuarios.administrar"),
     UsuarioController.crear
 );
 
-// Editar usuario
+// ==========================================
+// EDITAR USUARIO
+// ==========================================
+
 router.put(
     "/:idUsuario",
+    verificarPermiso("usuarios.administrar"),
     UsuarioController.actualizar
 );
 
-// Activar / desactivar
+// ==========================================
+// ACTIVAR / DESACTIVAR USUARIO
+// ==========================================
+
 router.patch(
     "/:idUsuario/estado",
+    verificarPermiso("usuarios.administrar"),
     UsuarioController.cambiarEstado
 );
 
-// Cambiar contraseña
+// ==========================================
+// CAMBIAR CONTRASEÑA
+// ==========================================
+
 router.patch(
     "/:idUsuario/password",
+    verificarPermiso("usuarios.administrar"),
     UsuarioController.cambiarPassword
 );
 

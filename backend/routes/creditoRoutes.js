@@ -1,30 +1,70 @@
+
 const express = require("express");
+
 const CreditoController = require("../controllers/CreditoController");
+
+const verificarPermiso = require("../middlewares/permisoMiddleware");
 
 const router = express.Router();
 
-// Consultar créditos
-router.get("/", CreditoController.obtenerTodos);
+// ==========================================
+// CONSULTAR CRÉDITOS
+// ==========================================
 
-// Catálogos para formulario
-router.get("/catalogos", CreditoController.obtenerCatalogos);
+router.get(
+    "/",
+    verificarPermiso("creditos.ver"),
+    CreditoController.obtenerTodos
+);
 
-// Simular amortización sin registrar
-router.post("/simular", CreditoController.simular);
+// ==========================================
+// CATÁLOGOS DEL FORMULARIO
+// ==========================================
 
-// Consultar cronograma de un crédito
+router.get(
+    "/catalogos",
+    verificarPermiso("creditos.ver"),
+    CreditoController.obtenerCatalogos
+);
+
+// ==========================================
+// SIMULAR AMORTIZACIÓN
+// ==========================================
+
+router.post(
+    "/simular",
+    verificarPermiso("creditos.crear"),
+    CreditoController.simular
+);
+
+// ==========================================
+// CONSULTAR CRONOGRAMA
+// ==========================================
+
 router.get(
     "/:idSocio/:idTipoServicio/:idCredito/cuotas",
+    verificarPermiso("creditos.ver"),
     CreditoController.obtenerCuotas
 );
 
-// Consultar un crédito específico
+// ==========================================
+// CONSULTAR CRÉDITO ESPECÍFICO
+// ==========================================
+
 router.get(
     "/:idSocio/:idTipoServicio/:idCredito",
+    verificarPermiso("creditos.ver"),
     CreditoController.obtenerPorId
 );
 
-// Registrar crédito y cuotas
-router.post("/", CreditoController.crear);
+// ==========================================
+// REGISTRAR CRÉDITO
+// ==========================================
+
+router.post(
+    "/",
+    verificarPermiso("creditos.crear"),
+    CreditoController.crear
+);
 
 module.exports = router;

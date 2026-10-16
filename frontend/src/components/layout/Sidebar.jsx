@@ -1,46 +1,78 @@
 
 import { useEffect, useState } from "react";
 
+import { useAuth } from "../../context/AuthContext";
+
 import "./Sidebar.css";
 
 function Sidebar() {
+    const {
+        usuario,
+        cerrarSesion,
+        tienePermiso
+    } = useAuth();
 
-    const obtenerRutaActual = () => {
-        const ruta = window.location.hash.replace("#", "");
-        return ruta || "/socios";
-    };
+    const obtenerRutaActual = () =>
+        window.location.hash.replace("#", "") || "/socios";
 
-    const [rutaActual, setRutaActual] = useState(obtenerRutaActual);
+    const [rutaActual, setRutaActual] =
+        useState(obtenerRutaActual);
 
     useEffect(() => {
-        const actualizarRuta = () => {
+        const actualizarRuta = () =>
             setRutaActual(obtenerRutaActual());
-        };
 
-        window.addEventListener("hashchange", actualizarRuta);
+        window.addEventListener(
+            "hashchange",
+            actualizarRuta
+        );
 
-        return () => {
+        return () =>
             window.removeEventListener(
                 "hashchange",
                 actualizarRuta
             );
-        };
     }, []);
 
-    const obtenerClase = (ruta) => {
-        return `sidebar-link ${
+    const obtenerClase = (ruta) =>
+        `sidebar-link ${
             rutaActual === ruta ? "active" : ""
         }`;
+
+    const nombre = usuario?.nombre || "Usuario";
+
+    const iniciales = nombre
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((parte) => parte[0]?.toUpperCase() || "")
+        .join("");
+
+    const perfiles = {
+        1: "Administrador",
+        2: "Asesor de créditos",
+        3: "Cajero",
+        4: "Supervisor"
     };
+
+    const nombrePerfil =
+        perfiles[Number(usuario?.idPerfil)] ||
+        `Perfil ${usuario?.idPerfil ?? ""}`;
+
+    const puedeVerPrincipal = [
+        "socios.ver",
+        "creditos.ver",
+        "pagos.ver",
+        "cuotas.ver"
+    ].some(tienePermiso);
 
     return (
         <aside className="sidebar">
 
             {/* LOGO */}
-
             <div className="sidebar-brand">
                 <div className="brand-logo">
-                    <i className="bi bi-cash-coin"></i>
+                    <i className="bi bi-cash-coin" />
                 </div>
 
                 <div>
@@ -54,145 +86,139 @@ function Sidebar() {
                 </div>
             </div>
 
-            {/* ACCIÓN PRINCIPAL */}
-
-            <div className="sidebar-action">
-                <button
-                    type="button"
-                    className="btn-new-credit"
-                    onClick={() => {
-                        window.location.hash = "/creditos";
-                    }}
-                >
-                    <i className="bi bi-plus-circle"></i>
-
-                    <span>Nuevo Crédito</span>
-                </button>
-            </div>
-
-            {/* NAVEGACIÓN */}
+            {/* NUEVO CRÉDITO */}
+            {tienePermiso("creditos.crear") && (
+                <div className="sidebar-action">
+                    <button
+                        type="button"
+                        className="btn-new-credit"
+                        onClick={() => {
+                            window.location.hash = "/creditos";
+                        }}
+                    >
+                        <i className="bi bi-plus-circle" />
+                        <span>Nuevo Crédito</span>
+                    </button>
+                </div>
+            )}
 
             <nav className="sidebar-navigation">
 
-                <div className="sidebar-section-title">
-                    PRINCIPAL
-                </div>
+                {puedeVerPrincipal && (
+                    <div className="sidebar-section-title">
+                        PRINCIPAL
+                    </div>
+                )}
 
-                {/* DASHBOARD PENDIENTE */}
+                {tienePermiso("socios.ver") && (
+                    <a
+                        href="#/socios"
+                        className={obtenerClase("/socios")}
+                    >
+                        <i className="bi bi-people" />
+                        <span>Socios</span>
+                    </a>
+                )}
 
-                <div
-                    className="sidebar-link opacity-50"
-                    title="Módulo pendiente"
-                    aria-disabled="true"
-                >
-                    <i className="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </div>
+                {tienePermiso("creditos.ver") && (
+                    <a
+                        href="#/creditos"
+                        className={obtenerClase("/creditos")}
+                    >
+                        <i className="bi bi-cash-stack" />
+                        <span>Créditos</span>
+                    </a>
+                )}
 
-                <a
-                    href="#/socios"
-                    className={obtenerClase("/socios")}
-                >
-                    <i className="bi bi-people"></i>
-                    <span>Socios</span>
-                </a>
+                {tienePermiso("pagos.ver") && (
+                    <a
+                        href="#/pagos"
+                        className={obtenerClase("/pagos")}
+                    >
+                        <i className="bi bi-wallet2" />
+                        <span>Pagos</span>
+                    </a>
+                )}
 
-                <a
-                    href="#/creditos"
-                    className={obtenerClase("/creditos")}
-                >
-                    <i className="bi bi-cash-stack"></i>
-                    <span>Créditos</span>
-                </a>
+                {tienePermiso("cuotas.ver") && (
+                    <a
+                        href="#/cuotas"
+                        className={obtenerClase("/cuotas")}
+                    >
+                        <i className="bi bi-calendar-check" />
+                        <span>Cuotas</span>
+                    </a>
+                )}
 
-                <a
-                    href="#/pagos"
-                    className={obtenerClase("/pagos")}
-                >
-                    <i className="bi bi-wallet2"></i>
-                    <span>Pagos</span>
-                </a>
+                {tienePermiso("reportes.ver") && (
+                    <>
+                        <div className="sidebar-separator" />
 
-                <a
-                    href="#/cuotas"
-                    className={obtenerClase("/cuotas")}
-                >
-                    <i className="bi bi-calendar-check"></i>
-                    <span>Cuotas</span>
-                </a>
+                        <div className="sidebar-section-title">
+                            CONSULTAS
+                        </div>
 
-                <div className="sidebar-separator"></div>
+                        <a
+                            href="#/reportes"
+                            className={obtenerClase("/reportes")}
+                        >
+                            <i className="bi bi-bar-chart-line" />
+                            <span>Reportes</span>
+                        </a>
+                    </>
+                )}
 
-                <div className="sidebar-section-title">
-                    CONSULTAS
-                </div>
+                {tienePermiso("usuarios.ver") && (
+                    <>
+                        <div className="sidebar-separator" />
 
-                <a
-                    href="#/reportes"
-                    className={obtenerClase("/reportes")}
-                >
-                    <i className="bi bi-bar-chart-line"></i>
-                    <span>Reportes</span>
-                </a>
+                        <div className="sidebar-section-title">
+                            SISTEMA
+                        </div>
 
-                <div className="sidebar-separator"></div>
-
-                <div className="sidebar-section-title">
-                    SISTEMA
-                </div>
-
-                {/* USUARIOS HABILITADO */}
-
-                <a
-                    href="#/usuarios"
-                    className={obtenerClase("/usuarios")}
-                >
-                    <i className="bi bi-person-gear"></i>
-                    <span>Usuarios</span>
-                </a>
-
-                {/* CONFIGURACIÓN PENDIENTE */}
-
-                <div
-                    className="sidebar-link opacity-50"
-                    title="Módulo pendiente"
-                    aria-disabled="true"
-                >
-                    <i className="bi bi-gear"></i>
-                    <span>Configuración</span>
-                </div>
+                        <a
+                            href="#/usuarios"
+                            className={obtenerClase("/usuarios")}
+                        >
+                            <i className="bi bi-person-gear" />
+                            <span>Usuarios</span>
+                        </a>
+                    </>
+                )}
 
             </nav>
 
             {/* PERFIL */}
-
             <div className="sidebar-user">
                 <div className="user-avatar">
-                    AD
+                    {iniciales || "US"}
                 </div>
 
                 <div className="user-information">
                     <div className="user-name">
-                        Administrador
+                        {nombre}
                     </div>
 
                     <div className="user-role">
-                        Administrador
+                        {nombrePerfil}
                     </div>
                 </div>
 
                 <button
                     type="button"
                     className="user-menu-button"
-                    title="Opciones de usuario"
+                    title="Cerrar sesión"
+                    aria-label="Cerrar sesión"
+                    onClick={cerrarSesion}
                 >
-                    <i className="bi bi-three-dots-vertical"></i>
+                    <i className="bi bi-box-arrow-right" />
                 </button>
             </div>
-
         </aside>
     );
 }
 
 export default Sidebar;
+
+
 

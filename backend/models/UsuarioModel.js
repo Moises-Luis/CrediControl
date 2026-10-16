@@ -3,52 +3,95 @@ const db = require("../config/database");
 
 class UsuarioModel {
 
+    // ==========================================
+    // LISTAR USUARIOS CON DESCRIPCIÓN DEL PERFIL
+    // ==========================================
+
     static async listar(idPais, buscar = "") {
         const termino = `%${buscar}%`;
 
         const [filas] = await db.query(`
             SELECT
-                idPais,
-                idUsuario,
-                idPerfil,
-                usuario,
-                nombre,
-                estado,
-                DATE_FORMAT(fecha, '%Y-%m-%d %H:%i:%s') AS fecha
-            FROM usuarios
-            WHERE idPais = ?
+                u.idPais,
+                u.idUsuario,
+                u.idPerfil,
+                p.descripcion AS descripcionPerfil,
+                u.usuario,
+                u.nombre,
+                u.estado,
+                DATE_FORMAT(
+                    u.fecha,
+                    '%Y-%m-%d %H:%i:%s'
+                ) AS fecha
+            FROM usuarios u
+
+            INNER JOIN perfilesusuarios p
+                ON p.idPais = u.idPais
+                AND p.idPerfil = u.idPerfil
+
+            WHERE u.idPais = ?
               AND (
-                  usuario LIKE ?
-                  OR nombre LIKE ?
-                  OR CAST(idUsuario AS CHAR) LIKE ?
+                  u.usuario LIKE ?
+                  OR u.nombre LIKE ?
+                  OR CAST(u.idUsuario AS CHAR) LIKE ?
               )
-            ORDER BY idUsuario DESC
-        `, [idPais, termino, termino, termino]);
+
+            ORDER BY u.idUsuario DESC
+        `, [
+            idPais,
+            termino,
+            termino,
+            termino
+        ]);
 
         return filas;
     }
 
+    // ==========================================
+    // OBTENER USUARIO POR ID
+    // ==========================================
+
     static async obtenerPorId(idPais, idUsuario) {
         const [filas] = await db.query(`
             SELECT
-                idPais,
-                idUsuario,
-                idPerfil,
-                usuario,
-                nombre,
-                estado,
-                DATE_FORMAT(fecha, '%Y-%m-%d %H:%i:%s') AS fecha
-            FROM usuarios
-            WHERE idPais = ?
-              AND idUsuario = ?
+                u.idPais,
+                u.idUsuario,
+                u.idPerfil,
+                p.descripcion AS descripcionPerfil,
+                u.usuario,
+                u.nombre,
+                u.estado,
+                DATE_FORMAT(
+                    u.fecha,
+                    '%Y-%m-%d %H:%i:%s'
+                ) AS fecha
+
+            FROM usuarios u
+
+            INNER JOIN perfilesusuarios p
+                ON p.idPais = u.idPais
+                AND p.idPerfil = u.idPerfil
+
+            WHERE u.idPais = ?
+              AND u.idUsuario = ?
+
+            LIMIT 1
         `, [idPais, idUsuario]);
 
         return filas[0] || null;
     }
 
-    static async obtenerPorNombreUsuario(idPais, usuario) {
+    // ==========================================
+    // BUSCAR POR NOMBRE DE USUARIO
+    // ==========================================
+
+    static async obtenerPorNombreUsuario(
+        idPais,
+        usuario
+    ) {
         const [filas] = await db.query(`
-            SELECT idUsuario
+            SELECT
+                idUsuario
             FROM usuarios
             WHERE idPais = ?
               AND usuario = ?
@@ -58,34 +101,52 @@ class UsuarioModel {
         return filas[0] || null;
     }
 
+    // ==========================================
+    // OBTENER PERFILES CON DESCRIPCIÓN REAL
+    // ==========================================
+
     static async obtenerPerfiles(idPais) {
         const [filas] = await db.query(`
-            SELECT idPerfil
+            SELECT
+                idPais,
+                idPerfil,
+                descripcion,
+                activo
             FROM perfilesusuarios
             WHERE idPais = ?
-            ORDER BY idPerfil
+            ORDER BY descripcion ASC
         `, [idPais]);
 
         return filas;
     }
 
+    // ==========================================
+    // COMPROBAR PERFIL ACTIVO
+    // ==========================================
+
     static async perfilExiste(idPais, idPerfil) {
         const [filas] = await db.query(`
-            SELECT idPerfil
+            SELECT
+                idPerfil
             FROM perfilesusuarios
             WHERE idPais = ?
               AND idPerfil = ?
+              AND activo = 1
             LIMIT 1
         `, [idPais, idPerfil]);
 
         return filas.length > 0;
     }
 
+    // ==========================================
+    // CREAR USUARIO
+    // ==========================================
+
     static async crear(datos) {
-        // La tabla no tiene AUTO_INCREMENT.
-        // Se calcula el siguiente ID de usuario.
-        // En caso de inserciones simultáneas,
-        // la llave primaria evita duplicados.
+        // Se conserva la asignación actual del ID.
+        // La llave primaria evita duplicados, aunque
+        // las inserciones concurrentes pueden requerir
+        // un reintento en caso de conflicto.
 
         const [resultado] = await db.query(`
             INSERT INTO usuarios (
@@ -119,6 +180,10 @@ class UsuarioModel {
         return resultado.affectedRows === 1;
     }
 
+    // ==========================================
+    // ACTUALIZAR USUARIO
+    // ==========================================
+
     static async actualizar(datos) {
         const [resultado] = await db.query(`
             UPDATE usuarios
@@ -139,6 +204,10 @@ class UsuarioModel {
         return resultado.affectedRows > 0;
     }
 
+    // ==========================================
+    // ACTIVAR O DESACTIVAR USUARIO
+    // ==========================================
+
     static async actualizarEstado(
         idPais,
         idUsuario,
@@ -149,10 +218,18 @@ class UsuarioModel {
             SET estado = ?
             WHERE idPais = ?
               AND idUsuario = ?
-        `, [estado, idPais, idUsuario]);
+        `, [
+            estado,
+            idPais,
+            idUsuario
+        ]);
 
         return resultado.affectedRows > 0;
     }
+
+    // ==========================================
+    // ACTUALIZAR CONTRASEÑA
+    // ==========================================
 
     static async actualizarPassword(
         idPais,
@@ -164,7 +241,11 @@ class UsuarioModel {
             SET password = ?
             WHERE idPais = ?
               AND idUsuario = ?
-        `, [passwordHash, idPais, idUsuario]);
+        `, [
+            passwordHash,
+            idPais,
+            idUsuario
+        ]);
 
         return resultado.affectedRows > 0;
     }
